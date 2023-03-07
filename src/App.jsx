@@ -1,15 +1,6 @@
 import "./App.css";
 import { useState } from "react";
-import { Planet } from "./Planet";
-
-const planets = [
-  { name: "Mars", isGasPlanet: false },
-  { name: "Earth", isGasPlanet: false },
-  { name: "Jupiter", isGasPlanet: true },
-  { name: "Venus", isGasPlanet: false },
-  { name: "Neptune", isGasPlanet: true },
-  { name: "Uranus", isGasPlanet: true },
-];
+import { Task } from "./Task";
 
 function App() {
   const [toDo, setToDo] = useState([]);
@@ -21,8 +12,7 @@ function App() {
   };
 
   const addTask = () => {
-    const taskToAdd = { id: nextId, name: newTask };
-    console.log(taskToAdd);
+    const taskToAdd = { id: nextId, name: newTask, completed: false };
     setToDo([...toDo, taskToAdd]);
     setNewTask("");
     setNextId(nextId + 1);
@@ -32,21 +22,32 @@ function App() {
     setToDo(toDo.filter((t) => t.id != taskId));
   };
 
+  const completeTask = (taskId) => {
+    setToDo(
+      toDo.map((task) =>
+        task.id === taskId ? { ...task, completed: true } : task
+      )
+    );
+  };
+
   return (
     <div className="App">
-      
       <div className="addTask">
         <input type="text" value={newTask} onChange={handleNewTaskInput} />
         <button onClick={addTask}>Add task</button>
       </div>
 
       <div className="taskList">
-        {toDo.map((task) => {
+        {toDo.map((task, key) => {
           return (
-            <div>
-              <p> {task.id} - {task.name} </p>
-              <button onClick={() => removeTask(task.id)}>Remove task</button>
-            </div>
+            <Task
+              key={key}
+              name={task.name}
+              id={task.id}
+              completed={task.completed}
+              removeTask={removeTask}
+              completeTask={completeTask}
+            />
           );
         })}
       </div>
