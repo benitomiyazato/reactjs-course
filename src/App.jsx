@@ -12,37 +12,29 @@ const planets = [
 ];
 
 function App() {
-  const [color, setColor] = useState("");
   const [toDo, setToDo] = useState([]);
   const [newTask, setNewTask] = useState("");
-
-  const handleInputColor = (event) => {
-    setColor(event.target.value);
-  };
+  const [nextId, setNextId] = useState(1);
 
   const handleNewTaskInput = (event) => {
     setNewTask(event.target.value);
   };
 
   const addTask = () => {
-    setToDo(...toDo, newTask);
+    const taskToAdd = { id: nextId, name: newTask };
+    console.log(taskToAdd);
+    setToDo([...toDo, taskToAdd]);
     setNewTask("");
+    setNextId(nextId + 1);
   };
 
-  const removeTask = (task) => {
-    setToDo(toDo.filter((t) => t != task));
+  const removeTask = (taskId) => {
+    setToDo(toDo.filter((t) => t.id != taskId));
   };
 
   return (
     <div className="App">
-      {planets.map((planet) => {
-        const { name, isGasPlanet } = planet;
-        return !isGasPlanet && <Planet name={name} />;
-      })}
-      <h1 style={{ color: color }}> Color changing dinamically </h1>
-      <input onChange={handleInputColor} type="text" />
-      {color}
-
+      
       <div className="addTask">
         <input type="text" value={newTask} onChange={handleNewTaskInput} />
         <button onClick={addTask}>Add task</button>
@@ -52,8 +44,8 @@ function App() {
         {toDo.map((task) => {
           return (
             <div>
-              <p> {task} </p>
-              <button onClick={() => removeTask(task)}>Remove task</button>
+              <p> {task.id} - {task.name} </p>
+              <button onClick={() => removeTask(task.id)}>Remove task</button>
             </div>
           );
         })}
