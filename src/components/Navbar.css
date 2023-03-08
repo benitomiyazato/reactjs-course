@@ -1,0 +1,22 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    display: flex;
+    position: absolute;
+    top: 0;
+    background-color: rgb(145, 194, 236);
+
+    align-items: center;
+    justify-content: space-evenly;
+
+    height: 8vh;
+    width: 100vw;
+}
+
+.link {
+    color: black;
+    font-size: 1.5em;
+}
