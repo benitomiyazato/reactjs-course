@@ -1,11 +1,17 @@
 import "./App.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Task } from "./Task";
+import axios from "axios";
 
 function App() {
   const [toDo, setToDo] = useState([]);
   const [newTask, setNewTask] = useState("");
   const [nextId, setNextId] = useState(1);
+  const [catFact, setCatFact] = useState("");
+
+  useEffect(() => {
+    genCatFact();
+  }, []);
 
   const handleNewTaskInput = (event) => {
     setNewTask(event.target.value);
@@ -30,6 +36,12 @@ function App() {
     );
   };
 
+  const genCatFact = async () => {
+    axios
+      .get("https://catfact.ninja/fact")
+      .then((res) => setCatFact(res.data.fact));
+  };
+
   return (
     <div className="App">
       <div className="addTask">
@@ -51,6 +63,9 @@ function App() {
           );
         })}
       </div>
+
+      <button onClick={genCatFact}> Generate new cat fact </button>
+      <h1> {catFact} </h1>
     </div>
   );
 }
