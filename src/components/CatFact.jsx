@@ -1,26 +1,19 @@
-import { useState, useEffect } from "react";
 import "./CatFact.css";
 import axios from "axios";
+import { useQuery } from "@tanstack/react-query";
 
 export const CatFact = () => {
-  const [catFact, setCatFact] = useState("");
+  const { data, isLoading, refetch } = useQuery(["catFact"], async () => {
+    return (await axios.get("https://catfact.ninja/fact")).data;
+  });
 
-  useEffect(() => {
-    genCatFact();
-  }, []);
-
-  const genCatFact = async () => {
-    axios
-      .get("https://catfact.ninja/fact")
-      .then((res) => setCatFact(res.data.fact));
-  };
   return (
     <div className="catfact-container">
       <div className="fact">
-        <p> {catFact} </p>
+        {!isLoading ? <p> {data?.fact} </p> : <p className="loading"> Loading... </p>}
       </div>
       <div className="button">
-        <button onClick={genCatFact}>Generate new cat fact</button>
+        <button onClick={refetch}>Generate new cat fact</button>
       </div>
     </div>
   );
