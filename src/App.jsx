@@ -3,6 +3,7 @@ import "./App.css";
 import { TaskList } from "./components/TaskList";
 import { CatFact } from "./components/CatFact";
 import { Navbar } from "./components/Navbar";
+import { Form } from "./components/Form";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
@@ -24,6 +25,7 @@ function App() {
             <Route path="/" element={<h1> Home Page </h1>}></Route>
             <Route path="/tasks" element={<TaskList />}></Route>
             <Route path="/fact" element={<CatFact />}></Route>
+            <Route path="/form" element={<Form />}></Route>
           </Routes>
         </Router>
       </QueryClientProvider>
